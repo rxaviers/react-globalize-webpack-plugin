@@ -1,0 +1,38 @@
+{
+  "name": "react-globalize-webpack-plugin",
+  "version": "0.0.1-pre",
+  "description": "Globalize.js webpack plugin",
+  "main": "index.js",
+  "scripts": {
+    "test": "npm test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:jquery-support/react-globalize-webpack-plugin.git"
+  },
+  "keywords": [
+    "react-globalize",
+    "webpack",
+    "plugin"
+  ],
+  "author": "Rafael Xavier de Souza",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jquery-support/react-globalize-webpack-plugin/issues"
+  },
+  "homepage": "https://github.com/jquery-support/react-globalize-webpack-plugin",
+  "dependencies": {
+    "globalize-webpack-plugin": "0.1.x",
+    "react-globalize-compiler": "0.0.x",
+    "skip-amd-webpack-plugin": "0.0.x"
+  },
+  "peerDependencies": {
+    "webpack": "^1.9.0"
+  },
+  "devDependencies": {
+    "jshint": "2.6.x"
+  },
+  "scripts": {
+    "test": "jshint *.js"
+  }
+}
