@@ -1,10 +1,5 @@
-var extend = require("util")._extend;
-<<<<<<< HEAD
 var Extractor = require("./Extractor");
-=======
-var Extractor = require('./Extractor');
 var reactGlobalizeCompiler = require("react-globalize-compiler");
->>>>>>> pass extractDefaultMessages and/or extractMessages
 
 function alwaysArray(stringOrArray) {
   return Array.isArray(stringOrArray) ? stringOrArray : stringOrArray ? [stringOrArray] : [];
@@ -90,16 +85,16 @@ ProductionModePlugin.prototype.apply = function(compiler) {
     var extractDefault = attributes.extractDefaultMessages || attributes.extractAllMessages
 
     if (extractDefault && locale === defaultLocale) {
-      reactGlobalizeCompiler.generateTranslation({
-        defaultLocale: defaultLocale,
-        defaultMessages: messages,
-        filepath: path
+      reactGlobalizeCompiler.generateDefaultTranslation({
+        path,
+        defaultLocale,
+        messages
       });
     } else if (attributes.extractAllMessages) {
       reactGlobalizeCompiler.initOrUpdateTranslation({
-        defaultMessages: messages,
-        filepath: path,
-        locale: locale
+        path,
+        locale,
+        messages
       });
     }
   }
