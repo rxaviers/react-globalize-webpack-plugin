@@ -90,16 +90,16 @@ ProductionModePlugin.prototype.apply = function(compiler) {
     var extractDefault = attributes.extractDefaultMessages || attributes.extractAllMessages
 
     if (extractDefault && locale === defaultLocale) {
-      reactGlobalizeCompiler.generateDefaultTranslation({
-        path,
-        defaultLocale,
-        messages
+      reactGlobalizeCompiler.generateTranslation({
+        defaultLocale: defaultLocale,
+        defaultMessages: messages,
+        filepath: path
       });
     } else if (attributes.extractAllMessages) {
       reactGlobalizeCompiler.initOrUpdateTranslation({
-        path,
-        locale,
-        messages
+        defaultMessages: messages,
+        filepath: path,
+        locale: locale
       });
     }
   }
