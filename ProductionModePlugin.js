@@ -1,6 +1,5 @@
 var extend = require("util")._extend;
 var Extractor = require('./Extractor');
-var reactGlobalizeCompiler = require("react-globalize-compiler");
 
 function alwaysArray(stringOrArray) {
   return Array.isArray(stringOrArray) ? stringOrArray : stringOrArray ? [stringOrArray] : [];
