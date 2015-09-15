@@ -11,8 +11,9 @@ function Extractor() {
 }
 
 Extractor.prototype.allDefaultMessages = function() {
-  return Object.keys(this.defaultMessages).reduce(function(sum, request) {
-    extend(sum, this.defaultMessages[request]);
+  var defaultMessages = this.defaultMessages;
+  return Object.keys(defaultMessages).reduce(function(sum, request) {
+    extend(sum, defaultMessages[request]);
     return sum;
   }, {});
 }
@@ -32,8 +33,9 @@ Extractor.prototype.getDefaultMessages = function(request) {
 }
 
 Extractor.prototype.allExtracts = function() {
-  return Object.keys(this.extracts).map(function(request) {
-    return this.extracts[request];
+  var extracts = this.extracts;
+  return Object.keys(extracts).map(function(request) {
+    return extracts[request];
   });
 }
 
