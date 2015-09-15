@@ -1,5 +1,10 @@
 var extend = require("util")._extend;
+<<<<<<< HEAD
 var Extractor = require("./Extractor");
+=======
+var Extractor = require('./Extractor');
+var reactGlobalizeCompiler = require("react-globalize-compiler");
+>>>>>>> pass extractDefaultMessages and/or extractMessages
 
 function alwaysArray(stringOrArray) {
   return Array.isArray(stringOrArray) ? stringOrArray : stringOrArray ? [stringOrArray] : [];
@@ -43,6 +48,8 @@ function ProductionModePlugin(attributes) {
 }
 
 ProductionModePlugin.prototype.apply = function(compiler) {
+  var attributes = this.attributes;
+  var defaultLocale = attributes.developmentLocale;
   var extractor = new Extractor();
 
   // Map eash AST and its request filepath.
@@ -74,24 +81,28 @@ ProductionModePlugin.prototype.apply = function(compiler) {
       attributes.messages[locale] = attributes.messages[locale] || {};
       extend(attributes.messages[locale], defaultMessages);
     }
+
+    process.nextTick(writeMessages, locale, attributes.messages[locale]);
   });
 
-  /*
-  TODO
-  // Generate default translation.
-  globalizeCompiler.generateDefaultTranslation({
-    path,
-    defaultLocale,
-    defaultMessages
-  });
+  function writeMessages(locale, messages) {
+    var path = attributes.messages.replace("[locale]", locale);
+    var extractDefault = attributes.extractDefaultMessages || attributes.extractAllMessages
 
-  // Initialize or update translation.
-  globalizeCompiler.initOrUpdateTranslation({
-    filepath,
-    locale
-    defaultMessages
-  });
-  */
+    if (extractDefault && locale === defaultLocale) {
+      reactGlobalizeCompiler.generateDefaultTranslation({
+        path,
+        defaultLocale,
+        messages
+      });
+    } else if (attributes.extractAllMessages) {
+      reactGlobalizeCompiler.initOrUpdateTranslation({
+        path,
+        locale,
+        messages
+      });
+    }
+  }
 };
 
 module.exports = ProductionModePlugin;
