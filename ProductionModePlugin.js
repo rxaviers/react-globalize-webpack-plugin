@@ -1,5 +1,5 @@
-var extend = require("util")._extend;
 var Extractor = require("./Extractor");
+var reactGlobalizeCompiler = require("react-globalize-compiler");
 
 function alwaysArray(stringOrArray) {
   return Array.isArray(stringOrArray) ? stringOrArray : stringOrArray ? [stringOrArray] : [];
@@ -43,6 +43,8 @@ function ProductionModePlugin(attributes) {
 }
 
 ProductionModePlugin.prototype.apply = function(compiler) {
+  var attributes = this.attributes;
+  var defaultLocale = attributes.developmentLocale;
   var extractor = new Extractor();
 
   // Map eash AST and its request filepath.
@@ -61,8 +63,9 @@ ProductionModePlugin.prototype.apply = function(compiler) {
   });
 
   compiler.plugin("globalize-before-compile-extracts", function(locale, attributes, request) {
-    var extracts = extractor.getExtracts(request);
     var defaultMessages = extractor.getDefaultMessages(request);
+    var extracts = extractor.getExtracts(request);
+    var localeMessages;
 
     if (extracts) {
       attributes.extracts = attributes.extracts ? arrayClone(alwaysArray(attributes.extracts)) : [];
@@ -71,27 +74,36 @@ ProductionModePlugin.prototype.apply = function(compiler) {
 
     if (defaultMessages) {
       attributes.messages = attributes.messages ? objectDeepClone(attributes.messages) : {};
-      attributes.messages[locale] = attributes.messages[locale] || {};
-      extend(attributes.messages[locale], defaultMessages);
+      localeMessages = attributes.messages[locale] || {};
+      attributes.messages[locale] = merge(localeMessages, defaultMessages);
     }
+
+    process.nextTick(function () {
+      writeMessages(locale, attributes.messages[locale]);
+    });
   });
 
-  /*
-  TODO
-  // Generate default translation.
-  globalizeCompiler.generateDefaultTranslation({
-    path,
-    defaultLocale,
-    defaultMessages
-  });
+  function writeMessages(locale, messages) {
+    if (!attributes.messages || !attributes.writeMessages) {
+      return;
+    }
 
-  // Initialize or update translation.
-  globalizeCompiler.initOrUpdateTranslation({
-    filepath,
-    locale
-    defaultMessages
-  });
-  */
+    var path = attributes.messages.replace("[locale]", locale);
+
+    if (locale === defaultLocale) {
+      reactGlobalizeCompiler.generateTranslation({
+        defaultLocale: defaultLocale,
+        defaultMessages: messages,
+        filepath: path
+      });
+    } else {
+      reactGlobalizeCompiler.initOrUpdateTranslation({
+        defaultMessages: messages,
+        filepath: path,
+        locale: locale
+      });
+    }
+  }
 };
 
 module.exports = ProductionModePlugin;
