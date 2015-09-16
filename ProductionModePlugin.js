@@ -84,6 +84,10 @@ ProductionModePlugin.prototype.apply = function(compiler) {
   });
 
   function writeMessages(locale, messages) {
+    if (!attributes.messages) {
+      return;
+    }
+
     var path = attributes.messages.replace("[locale]", locale);
 
     if (locale === defaultLocale) {
