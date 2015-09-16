@@ -3,11 +3,9 @@
 README to be defined.
 
 For now, please read [Globalize Webpack Plugin][] documentation. Usage is very
-similar, but with the following attributes:
+similar, but with one more attribute:
 
-* `extractDefaultMessages`: writes new default messages to the file specified
-  under the `messages` filepath specified.
-* `extractAllMessages`: writes new default messages for all supported locales
+* `extractMessages`: writes new default messages for all supported locales
   under the `messages` filepath specified.
 
 Both attributes require `messages` to be set.
