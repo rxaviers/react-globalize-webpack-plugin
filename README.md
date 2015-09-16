@@ -8,7 +8,7 @@ similar, but with one more attribute:
 * `extractMessages`: writes new default messages for all supported locales
   under the `messages` filepath specified.
 
-Both attributes require `messages` to be set.
+`extractMessages` requires `messages` to be set.
 
 Also, see [react-globalize][] and [Globalize][].
 
