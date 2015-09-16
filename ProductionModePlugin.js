@@ -63,8 +63,9 @@ ProductionModePlugin.prototype.apply = function(compiler) {
   });
 
   compiler.plugin("globalize-before-compile-extracts", function(locale, attributes, request) {
-    var extracts = extractor.getExtracts(request);
     var defaultMessages = extractor.getDefaultMessages(request);
+    var extracts = extractor.getExtracts(request);
+    var localeMessages;
 
     if (extracts) {
       attributes.extracts = attributes.extracts ? arrayClone(alwaysArray(attributes.extracts)) : [];
@@ -73,28 +74,30 @@ ProductionModePlugin.prototype.apply = function(compiler) {
 
     if (defaultMessages) {
       attributes.messages = attributes.messages ? objectDeepClone(attributes.messages) : {};
-      attributes.messages[locale] = attributes.messages[locale] || {};
-      extend(attributes.messages[locale], defaultMessages);
+      localeMessages = attributes.messages[locale] || {};
+      attributes.messages[locale] = merge(localeMessages, defaultMessages);
     }
 
-    process.nextTick(writeMessages, locale, attributes.messages[locale]);
+    process.nextTick(function () {
+      writeMessages(locale, attributes.messages[locale]);
+    });
   });
 
   function writeMessages(locale, messages) {
     var path = attributes.messages.replace("[locale]", locale);
-    var extractDefault = attributes.extractDefaultMessages || attributes.extractAllMessages
+    var extractDefault = attributes.extractDefaultMessages || attributes.extractAllMessages;
 
     if (extractDefault && locale === defaultLocale) {
-      reactGlobalizeCompiler.generateDefaultTranslation({
-        path,
-        defaultLocale,
-        messages
+      reactGlobalizeCompiler.generateTranslation({
+        defaultLocale: defaultLocale,
+        defaultMessages: messages,
+        filepath: path
       });
     } else if (attributes.extractAllMessages) {
       reactGlobalizeCompiler.initOrUpdateTranslation({
-        path,
-        locale,
-        messages
+        defaultMessages: messages,
+        filepath: path,
+        locale: locale
       });
     }
   }
