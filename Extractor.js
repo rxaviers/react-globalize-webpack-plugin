@@ -16,7 +16,7 @@ Extractor.prototype.allDefaultMessages = function() {
     extend(sum, defaultMessages[request]);
     return sum;
   }, {});
-}
+};
 
 Extractor.prototype.getDefaultMessages = function(request) {
   if (!request) {
@@ -30,14 +30,14 @@ Extractor.prototype.getDefaultMessages = function(request) {
   }
 
   return this.defaultMessages[request];
-}
+};
 
 Extractor.prototype.allExtracts = function() {
   var extracts = this.extracts;
   return Object.keys(extracts).map(function(request) {
     return extracts[request];
   });
-}
+};
 
 Extractor.prototype.getExtracts = function(request) {
   if (!request) {
@@ -50,6 +50,6 @@ Extractor.prototype.getExtracts = function(request) {
   }
 
   return this.extracts[request];
-}
+};
 
 module.exports = Extractor;

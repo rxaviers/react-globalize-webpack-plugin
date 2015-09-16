@@ -1,5 +1,5 @@
 var extend = require("util")._extend;
-var Extractor = require('./Extractor');
+var Extractor = require("./Extractor");
 
 function alwaysArray(stringOrArray) {
   return Array.isArray(stringOrArray) ? stringOrArray : stringOrArray ? [stringOrArray] : [];
@@ -43,7 +43,7 @@ function ProductionModePlugin(attributes) {
 }
 
 ProductionModePlugin.prototype.apply = function(compiler) {
-  var extractor = new Extractor;
+  var extractor = new Extractor();
 
   // Map eash AST and its request filepath.
   compiler.parser.plugin("program", function(ast) {
