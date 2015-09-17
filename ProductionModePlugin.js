@@ -84,7 +84,7 @@ ProductionModePlugin.prototype.apply = function(compiler) {
   });
 
   function writeMessages(locale, messages) {
-    if (!attributes.messages) {
+    if (!attributes.messages || !attributes.writeMessages) {
       return;
     }
 
@@ -96,7 +96,7 @@ ProductionModePlugin.prototype.apply = function(compiler) {
         defaultMessages: messages,
         filepath: path
       });
-    } else if (attributes.extractMessages) {
+    } else {
       reactGlobalizeCompiler.initOrUpdateTranslation({
         defaultMessages: messages,
         filepath: path,

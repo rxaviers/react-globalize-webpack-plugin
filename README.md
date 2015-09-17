@@ -5,10 +5,10 @@ README to be defined.
 For now, please read [Globalize Webpack Plugin][] documentation. Usage is very
 similar, but with one more attribute:
 
-* `extractMessages`: writes new default messages for all supported locales
+* `writeMessages`: writes new default messages for all supported locales
   under the `messages` filepath specified.
 
-`extractMessages` requires `messages` to be set.
+`writeMessages` requires `messages` to be set.
 
 Also, see [react-globalize][] and [Globalize][].
 
