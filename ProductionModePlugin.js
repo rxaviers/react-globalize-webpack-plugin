@@ -1,5 +1,8 @@
+var async = require("async");
 var Extractor = require("./Extractor");
-var reactGlobalizeCompiler = require("react-globalize-compiler");
+var fs = require("fs");
+var mkdirp = require("mkdirp");
+var path = require("path");
 
 function alwaysArray(stringOrArray) {
   return Array.isArray(stringOrArray) ? stringOrArray : stringOrArray ? [stringOrArray] : [];
@@ -7,6 +10,16 @@ function alwaysArray(stringOrArray) {
 
 function arrayClone(array) {
   return array.slice(0);
+}
+
+function compareJson(a, b) {
+  return JSON.stringify(a) === JSON.stringify(b);
+}
+
+function jsonKeyValue(key, value) {
+  var json = {};
+  json[key] = value;
+  return json;
 }
 
 // Returns new deeply merged JSON.
@@ -34,8 +47,17 @@ function merge() {
   return destination;
 }
 
-function objectDeepClone(object) {
-  return merge(object);
+function writeMessagesFile(filepath, data) {
+  process.nextTick(function () {
+    async.series([
+      function(callback) {
+        mkdirp(path.dirname(filepath), callback);
+      },
+      function(callback) {
+        fs.writeFile(filepath, JSON.stringify(data, null, "  "), callback);
+      }
+    ]);
+  });
 }
 
 function ProductionModePlugin(attributes) {
@@ -44,8 +66,10 @@ function ProductionModePlugin(attributes) {
 
 ProductionModePlugin.prototype.apply = function(compiler) {
   var attributes = this.attributes;
-  var defaultLocale = attributes.developmentLocale;
+  var developmentLocale = attributes.developmentLocale;
   var extractor = new Extractor();
+  var messages = attributes.messages;
+  var writeMessages = attributes.writeMessages;
 
   // Map eash AST and its request filepath.
   compiler.parser.plugin("program", function(ast) {
@@ -63,47 +87,54 @@ ProductionModePlugin.prototype.apply = function(compiler) {
   });
 
   compiler.plugin("globalize-before-compile-extracts", function(locale, attributes, request) {
+    var originalMessages;
     var defaultMessages = extractor.getDefaultMessages(request);
     var extracts = extractor.getExtracts(request);
-    var localeMessages;
 
     if (extracts) {
       attributes.extracts = attributes.extracts ? arrayClone(alwaysArray(attributes.extracts)) : [];
       [].push.apply(attributes.extracts, alwaysArray(extracts));
     }
 
+    // Note react-globalize-compiler actually extracts the default messages for
+    // Globalize and react-globalize <FormatMessage>s. Therefore, the fact
+    // defaultMessages is true means there are messages set either by Globalize
+    // methods or <FormatMessage>.
+    //
+    // If in the future, Globalize supports default messages, probably
+    // globalize-compile will handle the Globalize default messages and
+    // react-globalize-compiler will handle the react-globalize default
+    // messages. Therefore, this code will need changes.
     if (defaultMessages) {
-      attributes.messages = attributes.messages ? objectDeepClone(attributes.messages) : {};
-      localeMessages = attributes.messages[locale] || {};
-      attributes.messages[locale] = merge(localeMessages, defaultMessages);
-    }
+      originalMessages = attributes.messages;
 
-    process.nextTick(function () {
-      writeMessages(locale, attributes.messages[locale]);
-    });
+      if (locale === developmentLocale) {
+        // Overwrite it with the extracted default messages.
+        attributes.messages = jsonKeyValue(locale, defaultMessages);
+      } else {
+        // Populate the missing messages with the default messages.
+        attributes.messages = merge(
+          jsonKeyValue(locale, defaultMessages),
+          attributes.messages || {}
+        );
+      }
+
+      // Write messages if:
+      // 1: `writeMessages` is true, and
+      // 2: processing the whole chunk (i.e., the final i18n bundle where
+      //    `request` is null), and
+      // 3: messages have changed
+      if (writeMessages /*1 */ && !request /* 2 */ && !compareJson(originalMessages, attributes.messages) /* 3 */) {
+        var filepath = messages.replace("[locale]", locale);
+        writeMessagesFile(filepath, attributes.messages);
+        if (locale === developmentLocale) {
+          console.log("Generated `" + filepath + "` using the default translation.");
+        } else {
+          console.log("Populated the new fields of `" + filepath + "` using the default translation.");
+        }
+      }
+    }
   });
-
-  function writeMessages(locale, messages) {
-    if (!attributes.messages || !attributes.writeMessages) {
-      return;
-    }
-
-    var path = attributes.messages.replace("[locale]", locale);
-
-    if (locale === defaultLocale) {
-      reactGlobalizeCompiler.generateTranslation({
-        defaultLocale: defaultLocale,
-        defaultMessages: messages,
-        filepath: path
-      });
-    } else {
-      reactGlobalizeCompiler.initOrUpdateTranslation({
-        defaultMessages: messages,
-        filepath: path,
-        locale: locale
-      });
-    }
-  }
 };
 
 module.exports = ProductionModePlugin;
