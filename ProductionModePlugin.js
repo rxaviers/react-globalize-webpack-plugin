@@ -3,6 +3,7 @@ var Extractor = require("./Extractor");
 var fs = require("fs");
 var mkdirp = require("mkdirp");
 var path = require("path");
+var stringify = require("json-stable-stringify");
 
 function alwaysArray(stringOrArray) {
   return Array.isArray(stringOrArray) ? stringOrArray : stringOrArray ? [stringOrArray] : [];
@@ -54,7 +55,7 @@ function writeMessagesFile(filepath, data) {
         mkdirp(path.dirname(filepath), callback);
       },
       function(callback) {
-        fs.writeFile(filepath, JSON.stringify(data, null, "  "), callback);
+        fs.writeFile(filepath, stringify(data, { space: 2 }), callback);
       }
     ]);
   });
