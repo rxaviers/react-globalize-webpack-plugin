@@ -16,6 +16,9 @@
     "plugin"
   ],
   "author": "Rafael Xavier de Souza",
+  "contributors": [
+    "Andrew Lunny @alunny"
+  ],
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/jquery-support/react-globalize-webpack-plugin/issues"
