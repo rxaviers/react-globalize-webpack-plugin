@@ -1,3 +1,4 @@
+var DefaultGlobalizeMessages = require("default-globalize-messages");
 var GlobalizePlugin = require("globalize-webpack-plugin");
 var ProductionModePlugin = require("./ProductionModePlugin");
 var SkipAMDOfUMDPlugin = require("skip-amd-webpack-plugin");
@@ -7,6 +8,8 @@ function ReactGlobalizePlugin(attributes) {
 }
 
 ReactGlobalizePlugin.prototype.apply = function(compiler) {
+  DefaultGlobalizeMessages.set();
+
   compiler.apply(
     // Plugin GlobalizePlugin.
     new GlobalizePlugin(this.attributes),
