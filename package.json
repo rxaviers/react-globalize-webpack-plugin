@@ -26,6 +26,7 @@
   "homepage": "https://github.com/jquery-support/react-globalize-webpack-plugin",
   "dependencies": {
     "async": "^1.4.0",
+    "default-globalize-messages": "^0.1.1",
     "globalize-webpack-plugin": "0.1.x",
     "json-stable-stringify": "^1.0.0",
     "mkdirp": "^0.5.0",

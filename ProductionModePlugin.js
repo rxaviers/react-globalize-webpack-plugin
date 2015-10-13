@@ -72,7 +72,7 @@ ProductionModePlugin.prototype.apply = function(compiler) {
   var messages = attributes.messages;
   var writeMessages = attributes.writeMessages;
 
-  // Map eash AST and its request filepath.
+  // Map each AST and its request filepath.
   compiler.parser.plugin("program", function(ast) {
     extractor.asts[this.state.current.request] = ast;
   });
