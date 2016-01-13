@@ -27,7 +27,7 @@
   "dependencies": {
     "async": "^1.4.0",
     "default-globalize-messages": "^0.1.1",
-    "globalize-webpack-plugin": "^0.2.0",
+    "globalize-webpack-plugin": "0.3.x",
     "json-stable-stringify": "^1.0.0",
     "mkdirp": "^0.5.0",
     "react-globalize-compiler": "~0.1.0",
