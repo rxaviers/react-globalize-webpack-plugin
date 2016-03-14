@@ -1,4 +1,3 @@
-import Globalize from "globalize";
 import React from "react";
 import ReactDOM from "react-dom";
 import { FormatCurrency, FormatDate, FormatMessage, FormatNumber, FormatRelativeTime } from "react-globalize";
@@ -29,18 +28,6 @@ class App extends React.Component {
               </tr>
             </tbody>
           </table>
-          <p>
-            <FormatMessage
-              variables={{
-                number: Globalize.formatNumber(12345.6789),
-                currency: Globalize.formatCurrency(69900, "USD"),
-                date: Globalize.formatDate(new Date(), {datetime: "medium"}),
-                relativeTime: Globalize.formatRelativeTime(-35, "second")
-              }}
-            >{
-            "An example of a message using mixed numbers '{number}', currencies '{currency}', dates '{date}', and relative time '{relativeTime}'."
-            }</FormatMessage>
-          </p>
           <p>
             <FormatMessage
               variables={{
