@@ -9,7 +9,7 @@
     "eslint": "^0.17.1",
     "eslint-loader": "^0.7.0",
     "file-loader": "^0.8.1",
-    "globalize": "1.1.0-alpha - 1.1.x",
+    "globalize": "1.1.x",
     "globalize-webpack-plugin": "0.3.x",
     "html-webpack-plugin": "^1.1.0",
     "http-server": "^0.8.5",
