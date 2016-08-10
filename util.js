@@ -1,6 +1,8 @@
+path = require('path');
+
 module.exports = {
   isReactGlobalizeModule: function(filepath) {
-    filepath = filepath.split( "/" );
+    filepath = filepath.split( path.sep );
     var i = filepath.lastIndexOf("react-globalize");
     // 1: path should contain "react-globalize",
     // 2: and it should appear between the end (e.g., ../react-globalize) or 2

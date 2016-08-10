@@ -25,7 +25,7 @@ ReactGlobalizePlugin.prototype.apply = function(compiler) {
     new GlobalizePlugin(this.attributes),
 
     // Skip AMD part of ReactGlobalize UMD wrapper.
-    new SkipAMDOfUMDPlugin(/(^|\/)react-globalize($|\/)/)
+    new SkipAMDOfUMDPlugin(/(^|[\/\\])react-globalize($|[\/\\])/)
   );
 
   // Production mode only stuff.
