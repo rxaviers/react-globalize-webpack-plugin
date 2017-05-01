@@ -34,7 +34,7 @@
     "skip-amd-webpack-plugin": "0.1.x"
   },
   "peerDependencies": {
-    "webpack": "^1.9.0"
+    "webpack": "^1.9.0 || ^2.2.0-rc"
   },
   "devDependencies": {
     "eslint": "^3.19.0",
