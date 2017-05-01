@@ -1,6 +1,6 @@
 {
   "name": "react-globalize-webpack-plugin",
-  "version": "0.4.2",
+  "version": "0.4.3",
   "description": "Globalize.js webpack plugin",
   "main": "index.js",
   "scripts": {
@@ -34,7 +34,7 @@
     "skip-amd-webpack-plugin": "0.1.x"
   },
   "peerDependencies": {
-    "webpack": "^1.9.0"
+    "webpack": "^1.9.0 || ^2.2.0-rc"
   },
   "devDependencies": {
     "jshint": "2.6.x"
