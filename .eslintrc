@@ -1,0 +1,27 @@
+{
+  "env": {
+    "browser": true,
+    "es6": true,
+    "mocha": true,
+    "node": true
+  },
+  "extends": [
+    "defaults"
+  ],
+  "globals": {
+    "expect": true
+  },
+  "plugins": [
+    "sort-requires"
+  ],
+  "rules": {
+    "indent": ["warn", 2],
+    "no-console": 0,
+    "no-trailing-spaces": "warn",
+    "no-var": "error",
+    "quotes": ["warn", "double"],
+    "semi": "warn",
+    "sort-requires/sort-requires": "warn",
+    "strict": ["error", "global"]
+  }
+}
