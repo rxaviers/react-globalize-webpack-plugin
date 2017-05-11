@@ -27,14 +27,14 @@
   "dependencies": {
     "async": "^1.4.0",
     "default-globalize-messages": "^0.1.1",
-    "globalize-webpack-plugin": "0.3.x",
     "json-stable-stringify": "^1.0.0",
     "mkdirp": "^0.5.0",
     "react-globalize-compiler": "~0.1.0",
     "skip-amd-webpack-plugin": "0.1.x"
   },
   "peerDependencies": {
-    "webpack": "^1.9.0 || ^2.2.0-rc"
+    "webpack": "^1.9.0 || ^2.2.0-rc",
+    "globalize-webpack-plugin": "0.3.x"
   },
   "devDependencies": {
     "eslint": "^3.19.0",
