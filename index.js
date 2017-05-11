@@ -8,10 +8,10 @@ function ReactGlobalizePlugin(attributes) {
   var customFilter = attributes.moduleFilter;
   this.attributes = attributes;
 
-  if (customFilter && typeof customFilter === 'function') {
+  if (customFilter && typeof customFilter === "function") {
     this.attributes.moduleFilter = function(path) {
       return customFilter(path) || util.isReactGlobalizeModule(path);
-    }
+    };
   } else {
     this.attributes.moduleFilter = util.isReactGlobalizeModule;
   }
