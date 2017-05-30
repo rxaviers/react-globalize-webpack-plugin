@@ -11,11 +11,17 @@
   "globals": {
     "expect": true
   },
+  "plugins": [
+    "sort-requires"
+  ],
   "rules": {
+    "indent": ["warn", 2],
     "no-console": 0,
-    "no-trailing-spaces": 1,
+    "no-trailing-spaces": "warn",
+    "no-var": "error",
     "quotes": ["warn", "double"],
     "semi": "warn",
-    "indent": ["warn", 2]
+    "sort-requires/sort-requires": "warn",
+    "strict": ["error", "global"]
   }
 }
