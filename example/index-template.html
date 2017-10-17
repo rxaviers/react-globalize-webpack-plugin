@@ -1,0 +1,16 @@
+<!doctype html>
+<html lang="pt">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Title</title>
+    {% if (o.htmlWebpackPlugin.options.production) { %}<link type="text/css" rel="stylesheet" href="app.{%=o.webpack.hash%}.css" media="all">{% } %}
+</head>
+<body>
+    <div id="app"></div>{%
+for ( var chunk in o.htmlWebpackPlugin.files.chunks ) {
+	if ( !/globalize-compiled-data-/.test( chunk ) || chunk === "globalize-compiled-data-pt" ) {
+%}
+    <script src="{%=o.htmlWebpackPlugin.files.chunks[chunk].entry %}"></script>{% } } %}
+</body>
+</html>
