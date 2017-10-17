@@ -1,9 +1,15 @@
-> react-globalize webpack plugin 
+# react-globalize webpack plugin 
 
-README to be defined.
+## Webpack, React, and Globalize versions
 
-For now, please read [Globalize Webpack Plugin][] documentation. Usage is very
-similar, but with one more attribute:
+| react-globalize-webpack-plugin | webpack | react | globalize     |
+| ------------------------------ | ------- | ----- | ------------- |
+| 0.5.x                          | ^1.9.0  | *     | ^1.3.0        |
+| 0.4.x                          | ^1.9.0  | *     | ^1.1.0 <1.3.0 |
+
+## Usage
+
+Please read [Globalize Webpack Plugin][] documentation. Usage is very similar, but with one more attribute:
 
 * `writeMessages`: writes new default messages for all supported locales
   under the `messages` filepath specified.
