@@ -3,6 +3,10 @@
   "version": "1.0.0",
   "description": "Globalize.js webpack plugin",
   "main": "index.js",
+  "files": [
+    "*.js",
+    "DCO.md"
+  ],
   "scripts": {
     "test": "eslint *js"
   },
