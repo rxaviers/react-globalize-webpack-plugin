@@ -6,6 +6,7 @@ Starting from *v1.0.0*, only *webpack 2* is supported. If you need support for *
 
 | react-globalize-webpack-plugin | webpack | react | globalize     |
 | ------------------------------ | ------- | ----- | ------------- |
+| 1.1.x                          | ^2.2.0  | *     | ^1.3.0        |
 | 1.0.x                          | ^2.2.0  | *     | ^1.1.0 <1.3.0 |
 | 0.5.x                          | ^1.9.0  | *     | ^1.3.0        |
 | 0.4.x                          | ^1.9.0  | *     | ^1.1.0 <1.3.0 |
