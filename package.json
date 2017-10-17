@@ -34,9 +34,6 @@
     "react-globalize-compiler": "~0.1.0",
     "skip-amd-webpack-plugin": "0.1.x"
   },
-  "peerDependencies": {
-    "webpack": "^1.9.0 || ^2.2.0-rc"
-  },
   "devDependencies": {
     "eslint": "^3.19.0",
     "eslint-config-defaults": "^9.0.0"
