@@ -1,37 +1,44 @@
-var DefaultGlobalizeMessages = require("default-globalize-messages");
-var GlobalizePlugin = require("globalize-webpack-plugin");
-var ProductionModePlugin = require("./ProductionModePlugin");
-var SkipAMDOfUMDPlugin = require("skip-amd-webpack-plugin");
-var util = require("./util");
+"use strict";
 
-function ReactGlobalizePlugin(attributes) {
-  var customFilter = attributes.moduleFilter;
-  this.attributes = attributes;
+const DefaultGlobalizeMessages = require("default-globalize-messages");
+const GlobalizePlugin = require("globalize-webpack-plugin");
+const ProductionModePlugin = require("./ProductionModePlugin");
+const SkipAMDPlugin = require("skip-amd-webpack-plugin");
+const util = require("./util");
 
-  if (customFilter && typeof customFilter === "function") {
-    this.attributes.moduleFilter = function(path) {
-      return customFilter(path) || util.isReactGlobalizeModule(path);
-    };
-  } else {
-    this.attributes.moduleFilter = util.isReactGlobalizeModule;
+class ReactGlobalizePlugin {
+  constructor(attributes) {
+    var customFilter = attributes.moduleFilter;
+    this.attributes = attributes;
+
+    if (customFilter && typeof customFilter === "function") {
+      this.attributes.moduleFilter = function(path) {
+        return customFilter(path) || util.isReactGlobalizeModule(path);
+      };
+    } else {
+      this.attributes.moduleFilter = util.isReactGlobalizeModule;
+    }
   }
-}
 
-ReactGlobalizePlugin.prototype.apply = function(compiler) {
-  DefaultGlobalizeMessages.set();
+  apply(compiler) {
+    DefaultGlobalizeMessages.set();
 
-  compiler.apply(
     // Plugin GlobalizePlugin.
-    new GlobalizePlugin(this.attributes),
+    const globalizePlugin = new GlobalizePlugin(this.attributes);
+    compiler.apply(globalizePlugin);
 
     // Skip AMD part of ReactGlobalize UMD wrapper.
-    new SkipAMDOfUMDPlugin(/(^|[\/\\])react-globalize($|[\/\\])/)
-  );
+    const skipAMDPlugin = new SkipAMDPlugin(
+      /(^|[\/\\])react-globalize($|[\/\\])/
+    );
+    skipAMDPlugin.apply(compiler);
 
-  // Production mode only stuff.
-  if (this.attributes.production) {
-    compiler.apply(new ProductionModePlugin(this.attributes));
+    // Production mode only stuff.
+    if (this.attributes.production) {
+      const productionModePlugin = new ProductionModePlugin(this.attributes);
+      compiler.apply(productionModePlugin);
+    }
   }
-};
+}
 
 module.exports = ReactGlobalizePlugin;
